@@ -87,6 +87,9 @@ namespace apisistec.Controllers
             Facturascabecera? facturascabecera = new();
             if (billingData.Payment.PaymentState == PaymentState.PAID)
             {
+              if (string.IsNullOrEmpty(billingData.Payment.Result.BatchNo) || string.IsNullOrEmpty(billingData.Payment.Result.AuthCode))
+                    throw new Exception("Pago rechazado");
+                    
                 _billingService.Billing(billingData, client.CodigoCliente, out Facturascabecera billingSaved);
                 facturascabecera = billingSaved;
             }
