@@ -1,4 +1,7 @@
-﻿using apisistec.Dtos.Support;
+﻿using apisistec.Dtos;
+using apisistec.Dtos.Support;
+using apisistec.Entities;
+using apisistec.Models.Parameters;
 
 namespace apisistec.Interfaces
 {
@@ -7,5 +10,7 @@ namespace apisistec.Interfaces
         CredentialsToken GetUserSupportCredentials();
         string GetSuppportToken(string userId, string companyId);
         IssueCreatedResponseDto CreateSupport(IssueCreateDto create);
+        PaginationDto<SupportDto> GetByUser(QueryParams qParams);
+        UpdateDetailTimingDto UpdateSupportDetail(UpdateDetailTimingDto detail);
     }
 }

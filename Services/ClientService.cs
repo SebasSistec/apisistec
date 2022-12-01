@@ -28,7 +28,7 @@ namespace apisistec.Services
             .Clients
             .FirstOrDefault(x => x.NumeroIdentificacionCliente == identification);
 
-        public PaginationDto<ClientDto> Find(QueryStringParams qParams)
+        public PaginationDto<ClientDto> Find(QueryParams qParams)
         {
             IEnumerable<Cliente> clients = _context.Clients
                 .OrderBy(x => x.NombreComercialCliente)

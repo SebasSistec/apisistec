@@ -20,7 +20,7 @@ namespace apisistec.Services
             _context = context;
             _mapper = mapper;
         }
-        public PaginationDto<ProductDto> GetProducts(string companyId, QueryStringParams qParams)
+        public PaginationDto<ProductDto> GetProducts(string companyId, QueryParams qParams)
         {
             IEnumerable<EmpresasProductos> product = _context.EmpresasProductos
                     .Include(x => x.Product)

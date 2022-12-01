@@ -6,6 +6,6 @@ namespace apisistec.Interfaces
 {
     public interface IProductService
     {
-        PaginationDto<ProductDto> GetProducts(string companyId, QueryStringParams qParams);
+        PaginationDto<ProductDto> GetProducts(string companyId, QueryParams qParams);
     }
 }

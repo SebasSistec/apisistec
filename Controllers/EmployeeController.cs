@@ -20,7 +20,7 @@ namespace apisistec.Controllers
         }
 
         [HttpGet]
-        public IActionResult Search([FromQuery] QueryStringParams qParams, string companyId)
+        public IActionResult Search([FromQuery] QueryParams qParams, string companyId)
         {
             PaginationDto<EmployeeDto> find = _employeeService.Find(companyId, qParams);
 
