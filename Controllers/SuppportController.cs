@@ -45,7 +45,7 @@ namespace apisistec.Controllers
         }
 
         [HttpGet("by-user")]
-        //[Authorize]
+        [Authorize]
         public IActionResult CreateIssue([FromQuery] QueryParams qParams)
         {
             PaginationDto<SupportDto> issues = _supportService.GetByUser(qParams);
@@ -53,7 +53,7 @@ namespace apisistec.Controllers
         }
 
         [HttpPut("state")]
-        //[Authorize]
+        [Authorize]
         public IActionResult UpdateDetailStateDto([FromBody] UpdateDetailTimingDto detail)
         {
             UpdateDetailTimingDto issue = _supportService.UpdateSupportDetail(detail);
