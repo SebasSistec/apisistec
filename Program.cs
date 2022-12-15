@@ -83,6 +83,7 @@ builder.Services.AddScoped<IEmployeeService, EmployeeService>();
 builder.Services.AddScoped<ISupportService, SupportService>();
 builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<IMediaService, MediaService>();
+builder.Services.AddScoped<IProjectService, ProjectService>();
 
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 builder.Services.AddSingleton<ILoggerManager, LoggerManager>();
