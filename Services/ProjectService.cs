@@ -29,14 +29,7 @@ namespace apisistec.Services
                 Description = data.Description,
             };
 
-            ProjectsPerClients projectsPerClients = new()
-            {
-                ClientId = data.ClientId,
-                ProjectId = project.Id
-            };
-
             _context.Projects.Add(project);
-            _context.ProjectsPerClients.Add(projectsPerClients);
             _context.SaveChanges();
             return project;
         }

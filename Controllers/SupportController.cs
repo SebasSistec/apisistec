@@ -13,14 +13,14 @@ namespace apisistec.Controllers
 {
     [Route("api/support")]
     [ApiController]
-    public class SuppportController : ControllerBase
+    public class SupportController : ControllerBase
     {
         private ISupportService _supportService;
         private IMediaService _mediaService;
         private DataContext _context;
         DefaultResponses response = new();
 
-        public SuppportController(ISupportService supportService, DataContext context, IMediaService mediaService)
+        public SupportController(ISupportService supportService, DataContext context, IMediaService mediaService)
         {
             _context = context;
             _supportService = supportService;

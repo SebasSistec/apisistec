@@ -17,7 +17,9 @@ namespace apisistec.Mapper
                 .ForMember(dest => dest.priority,
                     opt => opt.MapFrom(o => o.priority))
                 .ForMember(dest => dest.clientId,
-                    opt => opt.MapFrom(o => o.clientId));
+                    opt => opt.MapFrom(o => o.clientId))
+                .ForMember(dest => dest.projectId,
+                    opt => opt.MapFrom(o => o.projectId));
 
             CreateMap<IssueDetailDto, IssueDetails>()
                 .ForMember(dest => dest.id,

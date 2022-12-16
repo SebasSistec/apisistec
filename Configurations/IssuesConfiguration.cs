@@ -48,6 +48,11 @@ namespace apisistec.Configurations
                 .IsRequired()
                 .HasColumnType("varchar");
 
+            builder.Property(x => x.projectId)
+               .IsRequired()
+               .HasColumnType("varchar")
+               .HasMaxLength(36);
+
             builder.HasOne(x => x.asignedBy)
                 .WithMany(x => x.asignedIssues)
                 .HasForeignKey(x => x.asignedById)
