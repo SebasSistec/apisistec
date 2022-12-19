@@ -151,6 +151,7 @@ namespace apisistec.Services
             IEnumerable<Issues> issues = _context.Issues
                 .Include(x => x.client)
                 .Include(x => x.asignedBy)
+                .Include(x => x.project)
                 .Include(x => x.issueDetails)
                     .ThenInclude(x => x.files)
                 .Include(x => x.issueDetails)

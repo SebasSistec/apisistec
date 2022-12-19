@@ -1,5 +1,6 @@
 ﻿using apisistec.Dtos.Client;
 using apisistec.Dtos.Employee;
+using apisistec.Dtos.Project;
 using apisistec.Enums;
 
 namespace apisistec.Dtos.Support
@@ -12,6 +13,7 @@ namespace apisistec.Dtos.Support
         public DateTime createdAt { get; set; }
         public EmployeeDto asignedBy { get; set; }
         public ClientDto client { get; set; }
+        public ProjectDto project { get; set; }
         public List<SupportDetailDto> details { get; set; }
     }
 }

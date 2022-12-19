@@ -21,7 +21,7 @@ namespace apisistec.Services
             _mapper = mapper;
         }
 
-        public Projects Create(ProjectDto data)
+        public Projects Create(ProjectRequestDto data)
         {
             Projects project = new()
             {

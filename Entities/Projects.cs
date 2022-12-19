@@ -7,5 +7,6 @@
         public string Description { get; set; }
         public DateTime CreatedAt { get; set; } = DateTime.Now;
         public List<ProjectsPerClients> Clients { get; set; } = new();
+        public List<Issues> Issues { get; set; } = new();
     }
 }

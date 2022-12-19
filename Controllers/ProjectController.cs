@@ -29,7 +29,7 @@ namespace apisistec.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create([FromBody] ProjectDto data)
+        public IActionResult Create([FromBody] ProjectRequestDto data)
         {
             _projectService.Create(data);
             return Ok(response.SuccessResponse("Ok", data));

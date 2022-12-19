@@ -1,4 +1,5 @@
 ﻿using apisistec.Dtos.File;
+using apisistec.Dtos.Project;
 using apisistec.Dtos.Support;
 using apisistec.Entities;
 using AutoMapper;
@@ -106,6 +107,12 @@ namespace apisistec.Mapper
                   opt => opt.MapFrom(o => o.name))
               .ForMember(dest => dest.extension,
                   opt => opt.MapFrom(o => o.extension));
+
+            CreateMap<Projects, ProjectDto>()
+              .ForMember(dest => dest.Name,
+                  opt => opt.MapFrom(o => o.Name))
+              .ForMember(dest => dest.Description,
+                  opt => opt.MapFrom(o => o.Description));
         }
     }
 }

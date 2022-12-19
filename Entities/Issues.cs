@@ -16,6 +16,7 @@ namespace apisistec.Entities
         public Empleado asignedBy { get; set; } = null!;
         public Empleado asignedTo { get; set; } = null!;
         public Cliente client { get; set; } = null!;
+        public Projects project { get; set; } = null!;
         public List<IssueDetails> issueDetails { get; set; } = new();
     }
 }
