@@ -26,10 +26,15 @@ namespace apisistec.Configurations
             
             builder.Property(x => x.endAt)
                .HasColumnType("datetime");
-
+            
             builder.Property(x => x.pauseDescription)
                .HasColumnType("varchar")
                .HasMaxLength(100);
+
+
+            builder.Property(x => x.createdAt)
+               .HasColumnType("datetime");
+
 
             builder.Property(x => x.issueDetailId)
                .IsRequired()

@@ -9,6 +9,7 @@ namespace apisistec.Configurations
         public void Configure(EntityTypeBuilder<BillingParams> builder)
         {
             builder.ToTable("plnp_billing_params");
+
             builder.HasKey(x => x.Id);
 
             builder.Property(x => x.Id)

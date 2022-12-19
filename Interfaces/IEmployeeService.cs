@@ -6,6 +6,6 @@ namespace apisistec.Interfaces
 {
     public interface IEmployeeService
     {
-        PaginationDto<EmployeeDto> Find(string companyId, QueryStringParams qParams);
+        PaginationDto<EmployeeDto> Find(string companyId, QueryParams qParams);
     }
 }

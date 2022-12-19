@@ -10,6 +10,6 @@ namespace apisistec.Interfaces
     {
         Cliente? FindByIdentification(string identification);
         Cliente Create(CustomerDto customer);
-        PaginationDto<ClientDto> Find(QueryStringParams qParams);
+        PaginationDto<ClientDto> Find(QueryParams qParams);
     }
 }

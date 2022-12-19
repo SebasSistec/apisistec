@@ -20,7 +20,7 @@ namespace apisistec.Services
             _mapper = mapper;
         }
 
-        public PaginationDto<EmployeeDto> Find(string companyId, QueryStringParams qParams)
+        public PaginationDto<EmployeeDto> Find(string companyId, QueryParams qParams)
         {
             IEnumerable<Empleado> employees = _context.Empleados
                 .OrderBy(x => x.NombreEmpleado)

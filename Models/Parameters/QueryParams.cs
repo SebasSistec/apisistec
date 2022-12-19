@@ -2,7 +2,7 @@
 
 namespace apisistec.Models.Parameters
 {
-    public class QueryStringParams
+    public class QueryParams
     {
         public string? search { get; set; }
         public int page { get; set; } = 1;

@@ -7,7 +7,7 @@ using Microsoft.Extensions.Primitives;
 
 namespace apisistec.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/file")]
     [ApiController]
     public class FileController : ControllerBase
     {

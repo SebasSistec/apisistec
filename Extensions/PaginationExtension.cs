@@ -5,7 +5,7 @@ namespace apisistec.Extensions
 {
     public static class PaginationExtension
     {
-        public static PaginationDto<T> GetPaged<T>(this IEnumerable<T> list, QueryStringParams qParams)
+        public static PaginationDto<T> GetPaged<T>(this IEnumerable<T> list, QueryParams qParams)
         {
             double totalPages = (double)list.Count() / qParams.pageSize;
             return new()
@@ -14,7 +14,7 @@ namespace apisistec.Extensions
                 pageSize = qParams.pageSize,
                 total = list.Count(),
                 totalPages = (int)Math.Ceiling(totalPages),
-                result = list.Skip((qParams.page - 1) * qParams.pageSize).Take(qParams.pageSize)
+                data = list.Skip((qParams.page - 1) * qParams.pageSize).Take(qParams.pageSize)
             };
         }
     }

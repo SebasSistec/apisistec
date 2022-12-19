@@ -9,5 +9,6 @@ namespace apisistec.Dtos.Support
         public DateTime? startAt { get; set; } 
         public DateTime? endAt { get; set; }
         public string? pauseDescription { get; set; }
+        public DateTime createdAt { get; set; }
     }
 }

@@ -96,5 +96,6 @@
         public DateTime FechaRegistro { get; set; } = DateTime.Now;
         public List<ContractedPlans> ContractedPlans { get; set; } = new();
         public List<Issues> issues { get; set; } = new();
+        public List<ProjectsPerClients> Projects { get; set; } = new();
     }
 }
