@@ -18,7 +18,7 @@ namespace apisistec.Controllers
         [HttpGet]
         public IActionResult Index()
         {
-            return Ok(response.SuccessResponse("Ok", _service.ProvincesWithCantons()));
+            return response.SuccessResponse("Ok", _service.ProvincesWithCantons());
         }
     }
 }

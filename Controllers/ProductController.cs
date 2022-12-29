@@ -24,7 +24,7 @@ namespace apisistec.Controllers
         public IActionResult GetProducts([FromQuery] QueryParams qParams, string companyId)
         {
             PaginationDto<ProductDto> products  = _productService.GetProducts(companyId, qParams);
-            return Ok(response.SuccessResponse("Ok", products));
+            return response.SuccessResponse("Ok", products);
         }
     }
 }

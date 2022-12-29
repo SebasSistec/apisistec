@@ -2,6 +2,7 @@
 using apisistec.Dtos.Support;
 using apisistec.Entities;
 using apisistec.Models.Parameters;
+using apisistec.Models.Parameters.Support;
 
 namespace apisistec.Interfaces
 {
@@ -12,5 +13,6 @@ namespace apisistec.Interfaces
         IssueCreatedResponseDto CreateSupport(IssueCreateDto create);
         PaginationDto<SupportDto> GetByUser(QueryParams qParams);
         UpdateDetailTimingDto UpdateSupportDetail(UpdateDetailTimingDto detail);
+        PaginationDto<SupportDto> GetWithParams(SupportQParams qParams);
     }
 }

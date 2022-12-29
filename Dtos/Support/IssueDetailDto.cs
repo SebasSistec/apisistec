@@ -12,6 +12,7 @@ namespace apisistec.Dtos.Support
         public double estimatedHours { get; set; }
         public EmployeeDto employee { get; set; }
         public ProductDto product { get; set; }
+        public Guid moduleId { get; set; }
         public List<FileUploadedDto> cacheFileKeys { get; set; }
     }
 }

@@ -1,6 +1,6 @@
 ﻿namespace apisistec.Dtos.Project
 {
-    public class ProjectRequestDto : ProjectDto
+    public class ProjectRequestDto : ProjectOrModuleDto
     {
         public string ClientId { get; set; }
     }

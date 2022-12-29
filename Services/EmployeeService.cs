@@ -34,7 +34,7 @@ namespace apisistec.Services
                     || x.EmailEmpleado.ToLower().Contains(qParams.search)
                 );
 
-            if (qParams.orderBy == "desc")
+            if (qParams.isOrderByDescending == true)
                 employees = employees.OrderByDescending(x => x.NombreEmpleado);
 
             IEnumerable<EmployeeDto> mapped = _mapper.Map<IEnumerable<EmployeeDto>>(employees);

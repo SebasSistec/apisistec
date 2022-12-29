@@ -1,26 +1,28 @@
 ﻿using apisistec.Dtos;
+using Microsoft.AspNetCore.Mvc;
 
 namespace apisistec.Helpers
 {
-    public class DefaultResponses
+    public class DefaultResponses : ControllerBase
     {
-        public DefaultResponseDto<T> SuccessResponse<T>(string message, T result)
+        public IActionResult SuccessResponse<T>(string message, T result)
         {
-            return new DefaultResponseDto<T>
+            return Ok(new DefaultResponseDto<T>
             {
                 Success = true,
                 Message = message,
                 Result = result
-            };
+            });
         }
-        public DefaultResponseDto<T?> ErrorResponse<T>(string message, T? result)
+
+        public IActionResult ErrorResponse<T>(string message, T? result)
         {
-            return new DefaultResponseDto<T?>
+            return BadRequest(new DefaultResponseDto<T?>
             {
                 Success = false,
                 Message = message,
                 Result = result
-            };
+            }); 
         }
     }
 }

@@ -19,6 +19,8 @@ namespace apisistec.Models.Parameters
             }
         }
 
-        public string orderBy { get; set; } = "asc";
+        public bool isOrderByDescending { get; set; } = false;
+        public string? orderBy { get; set; } = "createdAt";
+
     }
 }

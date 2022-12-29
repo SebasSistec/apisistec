@@ -24,7 +24,7 @@ namespace apisistec.Controllers
         {
             PaginationDto<EmployeeDto> find = _employeeService.Find(companyId, qParams);
 
-            return Ok(response.SuccessResponse("Ok", find));
+            return response.SuccessResponse("Ok", find);
         }
     }
 }

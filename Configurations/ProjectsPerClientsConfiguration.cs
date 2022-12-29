@@ -30,7 +30,7 @@ namespace apisistec.Configurations
                 .HasMaxLength(36);
 
             builder.HasOne(x => x.Project)
-                .WithMany(x => x.Clients)
+                .WithMany(x => x.clients)
                 .HasForeignKey(x => x.ProjectId)
                 .OnDelete(DeleteBehavior.Restrict);
         }

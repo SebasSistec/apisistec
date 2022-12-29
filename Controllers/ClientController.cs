@@ -24,7 +24,7 @@ namespace apisistec.Controllers
         {
             PaginationDto<ClientDto> find = _clientService.Find(qParams);
 
-            return Ok(response.SuccessResponse("Ok", find));
+            return response.SuccessResponse("Ok", find);
         }
     }
 }

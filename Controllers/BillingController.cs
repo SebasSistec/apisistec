@@ -118,7 +118,7 @@ namespace apisistec.Controllers
                 string token = _userService.GetToken(Guid.Parse(userId), billingData.Customer.Email);
                 _authorizeBilling.AutorizeBill(facturascabecera.CodigoFacturaCabecera, token);
             }
-            return Ok(response.SuccessResponse("Compra realizada con éxito", billingData.Customer));
+            return response.SuccessResponse("Compra realizada con éxito", billingData.Customer);
         }
     }
 }

@@ -9,11 +9,12 @@ namespace apisistec.Dtos.Support
     {
         public Guid id { get; set; }
         public int orderNumber { get; set; }
-        public TaskStateEnum state { get; set; } 
+        public TaskStateEnum state { get; set; }
+        public IssuePriorityEnum priority { get; set; }
         public DateTime createdAt { get; set; }
         public EmployeeDto asignedBy { get; set; }
         public ClientDto client { get; set; }
-        public ProjectDto project { get; set; }
+        public ProjectOrModuleDto project { get; set; }
         public List<SupportDetailDto> details { get; set; }
     }
 }

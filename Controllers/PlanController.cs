@@ -22,7 +22,7 @@ namespace apisistec.Controllers
         {
             List<PlanDto> planList = new();
             planList = _planService.AllEnabled();
-            return Ok(response.SuccessResponse("Ok", planList));
+            return response.SuccessResponse("Ok", planList);
         }
     }
 }

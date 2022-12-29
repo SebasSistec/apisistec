@@ -2,7 +2,6 @@
 using apisistec.Dtos.Company;
 using apisistec.Entities;
 using apisistec.Helpers;
-using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 
 namespace apisistec.Controllers
@@ -12,13 +11,11 @@ namespace apisistec.Controllers
     public class CompanyInformationController : ControllerBase
     {
         private readonly DataContext _context;
-        private readonly IMapper _autoMapper;
         DefaultResponses response = new();
-        public CompanyInformationController(DataContext context,
-                                            IMapper autoMapper)
+        string COMPANY_INFO_ERROR_MESSAGE = "No se encontró información de la empresa";
+        public CompanyInformationController(DataContext context)
         {
             _context = context;
-            _autoMapper = autoMapper;
         }
 
         [HttpGet]
@@ -26,8 +23,8 @@ namespace apisistec.Controllers
         {
             CompanyInformation? companyInformation = _context.CompanyInformation.FirstOrDefault();
             if (companyInformation == null)
-                return BadRequest(response.ErrorResponse($"No se encontro informacion de la empresa", "")); ;
-            return Ok(response.SuccessResponse("OK", companyInformation));
+                return response.ErrorResponse(COMPANY_INFO_ERROR_MESSAGE, string.Empty);
+            return response.SuccessResponse("OK", companyInformation);
         }
 
         [HttpGet("contact-info")]
@@ -35,15 +32,15 @@ namespace apisistec.Controllers
         {
             CompanyInformation? companyInformation = _context.CompanyInformation.FirstOrDefault();
             if (companyInformation == null)
-                return BadRequest(response.ErrorResponse($"No se pudo encontrar datos de la Empresa", ""));
+                return response.ErrorResponse(COMPANY_INFO_ERROR_MESSAGE, string.Empty);
 
-            return Ok(response.SuccessResponse("Ok", new
+            return response.SuccessResponse("Ok", new
             {
                 email = companyInformation.Email,
                 phone = companyInformation.Phone,
                 whatsappMessage = companyInformation.WhatsappMessage,
                 whatsappNumber = companyInformation.whatsappNumber
-            }));
+            });
         }
 
         [HttpGet("privacy-polices")]
@@ -51,8 +48,8 @@ namespace apisistec.Controllers
         {
             CompanyInformation? companyInformation = _context.CompanyInformation.FirstOrDefault();
             if (companyInformation == null)
-                return BadRequest(response.ErrorResponse($"No se pudo encontrar datos de la Empresa", ""));
-            return Ok(response.SuccessResponse("Ok", new { info = companyInformation.Politics }));
+                return response.ErrorResponse(COMPANY_INFO_ERROR_MESSAGE, string.Empty);
+            return response.SuccessResponse("Ok", new { info = companyInformation.Politics });
         }
 
         [HttpGet("about-us")]
@@ -60,8 +57,8 @@ namespace apisistec.Controllers
         {
             CompanyInformation? companyInformation = _context.CompanyInformation.FirstOrDefault();
             if (companyInformation == null)
-                return BadRequest(response.ErrorResponse($"No se pudo encontrar datos de la Empresa", ""));
-            return Ok(response.SuccessResponse("Ok", new { info = companyInformation.AboutUs }));
+                return response.ErrorResponse(COMPANY_INFO_ERROR_MESSAGE, string.Empty);
+            return response.SuccessResponse("Ok", new { info = companyInformation.AboutUs });
         }
 
         [HttpGet("faq")]
@@ -69,8 +66,8 @@ namespace apisistec.Controllers
         {
             CompanyInformation? companyInformation = _context.CompanyInformation.FirstOrDefault();
             if (companyInformation == null)
-                return BadRequest(response.ErrorResponse($"No se pudo encontrar datos de la Empres", ""));
-            return Ok(response.SuccessResponse("Ok", new { info = companyInformation.Faq }));
+                return response.ErrorResponse(COMPANY_INFO_ERROR_MESSAGE, string.Empty);
+            return response.SuccessResponse("Ok", new { info = companyInformation.Faq });
         }
 
         [HttpGet("devolutions")]
@@ -78,8 +75,8 @@ namespace apisistec.Controllers
         {
             CompanyInformation? companyInformation = _context.CompanyInformation.FirstOrDefault();
             if (companyInformation == null)
-                return BadRequest(response.ErrorResponse($"No se pudo encontrar datos de la Empresa", ""));
-            return Ok(response.SuccessResponse("Ok", new { info = companyInformation.Devolution }));
+                return response.ErrorResponse(COMPANY_INFO_ERROR_MESSAGE, string.Empty);
+            return response.SuccessResponse("Ok", new { info = companyInformation.Devolution });
         }
 
         [HttpGet("terms-conditions")]
@@ -87,26 +84,25 @@ namespace apisistec.Controllers
         {
             CompanyInformation? companyInformation = _context.CompanyInformation.FirstOrDefault();
             if (companyInformation == null)
-                return BadRequest(response.ErrorResponse($"No se pudo encontrar datos de la Empresa", ""));
-            return Ok(response.SuccessResponse("Ok", new { info = companyInformation.TermsAndConditions }));
+                return response.ErrorResponse(COMPANY_INFO_ERROR_MESSAGE, string.Empty);
+            return response.SuccessResponse("Ok", new { info = companyInformation.TermsAndConditions });
         }
 
         [HttpPost("contact")]
         public IActionResult SendEmailContact([FromBody] ContactDto contact)
         {
             //Aqui va el correo de contact
-            return Ok(response.SuccessResponse("Ok", contact));
+            return response.SuccessResponse("Ok", contact);
         }
         
         [HttpGet("valid-payment")]
         public IActionResult IsValidPayment()
         {
             bool isValidPayment = _context.BillingParams.Select(x => x.IsValidPayment).FirstOrDefault() == 1;
-            return Ok(response.SuccessResponse("Ok", new
+            return response.SuccessResponse("Ok", new
             {
                 isValidPayment
-            }));
+            });
         }
-
     }
 }

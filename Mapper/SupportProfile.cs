@@ -1,8 +1,10 @@
 ﻿using apisistec.Dtos.File;
+using apisistec.Dtos.Product;
 using apisistec.Dtos.Project;
 using apisistec.Dtos.Support;
 using apisistec.Entities;
 using AutoMapper;
+using Models;
 
 namespace apisistec.Mapper
 {
@@ -34,7 +36,9 @@ namespace apisistec.Mapper
                 .ForMember(dest => dest.employeeId,
                     opt => opt.MapFrom(o => o.employee.id))
                 .ForMember(dest => dest.productId,
-                    opt => opt.MapFrom(o => o.product.id));
+                    opt => opt.MapFrom(o => o.product.id))
+                .ForMember(dest => dest.moduleId,
+                    opt => opt.MapFrom(o => o.moduleId));
 
             CreateMap<IssueDetails, IssueTimings>()
                 .ForMember(dest => dest.id,
@@ -75,6 +79,8 @@ namespace apisistec.Mapper
                     opt => opt.MapFrom(o => o.orderNumber))
                 .ForMember(dest => dest.state,
                     opt => opt.MapFrom(o => o.state))
+                .ForMember(dest => dest.priority,
+                    opt => opt.MapFrom(o => o.priority))
                 .ForMember(dest => dest.createdAt,
                     opt => opt.MapFrom(o => o.createdAt))
                 .ForMember(dest => dest.client,
@@ -95,6 +101,10 @@ namespace apisistec.Mapper
                    opt => opt.MapFrom(o => o.createdAt))
                .ForMember(dest => dest.files,
                    opt => opt.MapFrom(o => o.files))
+               .ForMember(dest => dest.module,
+                   opt => opt.MapFrom(o => o.module))
+               .ForMember(dest => dest.product,
+                   opt => opt.MapFrom(o => o.producto))
                .ForMember(dest => dest.timing,
                    opt => opt.MapFrom(o => o.timings[0]));
 
@@ -108,11 +118,25 @@ namespace apisistec.Mapper
               .ForMember(dest => dest.extension,
                   opt => opt.MapFrom(o => o.extension));
 
-            CreateMap<Projects, ProjectDto>()
+            CreateMap<Projects, ProjectOrModuleDto>()
               .ForMember(dest => dest.Name,
-                  opt => opt.MapFrom(o => o.Name))
+                  opt => opt.MapFrom(o => o.name))
               .ForMember(dest => dest.Description,
-                  opt => opt.MapFrom(o => o.Description));
+                  opt => opt.MapFrom(o => o.description));
+
+            CreateMap<Modules, ProjectOrModuleDto>()
+              .ForMember(dest => dest.Name,
+                  opt => opt.MapFrom(o => o.name))
+              .ForMember(dest => dest.Description,
+                  opt => opt.MapFrom(o => o.description));
+
+            CreateMap<Producto, ProductDto>()
+                .ForMember(dest => dest.id,
+                    opt => opt.MapFrom(o => o.CodigoProducto))
+                .ForMember(dest => dest.code,
+                    opt => opt.MapFrom(o => o.CodigoVentaProducto))
+                .ForMember(dest => dest.description,
+                    opt => opt.MapFrom(o => o.DescripcionProducto));
         }
     }
 }

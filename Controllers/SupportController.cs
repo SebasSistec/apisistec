@@ -1,11 +1,10 @@
-﻿using apisistec.Constants;
-using apisistec.Context;
+﻿using apisistec.Context;
 using apisistec.Dtos;
 using apisistec.Dtos.Support;
-using apisistec.Entities;
 using apisistec.Helpers;
 using apisistec.Interfaces;
 using apisistec.Models.Parameters;
+using apisistec.Models.Parameters.Support;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -16,15 +15,13 @@ namespace apisistec.Controllers
     public class SupportController : ControllerBase
     {
         private ISupportService _supportService;
-        private IMediaService _mediaService;
         private DataContext _context;
         DefaultResponses response = new();
 
-        public SupportController(ISupportService supportService, DataContext context, IMediaService mediaService)
+        public SupportController(ISupportService supportService, DataContext context)
         {
             _context = context;
             _supportService = supportService;
-            _mediaService = mediaService;
         }
 
         [HttpGet("token-support")]
@@ -41,7 +38,7 @@ namespace apisistec.Controllers
 
             _context.SaveChanges();
 
-            return Ok(response.SuccessResponse("Ok", issue));
+            return response.SuccessResponse("Ok", issue);
         }
 
         [HttpGet("by-user")]
@@ -49,7 +46,7 @@ namespace apisistec.Controllers
         public IActionResult CreateIssue([FromQuery] QueryParams qParams)
         {
             PaginationDto<SupportDto> issues = _supportService.GetByUser(qParams);
-            return Ok(response.SuccessResponse("Ok", issues));
+            return response.SuccessResponse("Ok", issues);
         }
 
         [HttpPut("state")]
@@ -57,7 +54,14 @@ namespace apisistec.Controllers
         public IActionResult UpdateDetailStateDto([FromBody] UpdateDetailTimingDto detail)
         {
             UpdateDetailTimingDto issue = _supportService.UpdateSupportDetail(detail);
-            return Ok(response.SuccessResponse("Ok", issue));
+            return response.SuccessResponse("Ok", issue);
+        }
+
+        [HttpGet("report")]
+        public IActionResult GetReport([FromQuery] SupportQParams qParams)
+        {
+            PaginationDto<SupportDto> issues = _supportService.GetWithParams(qParams);
+            return response.SuccessResponse("Ok", issues);
         }
     }
 }

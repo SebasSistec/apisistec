@@ -42,7 +42,7 @@ namespace apisistec.Services
                     || x.NombreComercialCliente.ToLower().Contains(qParams.search)
                 );
 
-            if (qParams.orderBy == "desc")
+            if (qParams.isOrderByDescending == true)
                 clients = clients.OrderByDescending(x => x.NombreComercialCliente);
             
             IEnumerable<ClientDto> mapped = _mapper.Map<IEnumerable<ClientDto>>(clients);

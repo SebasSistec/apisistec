@@ -33,7 +33,7 @@ namespace apisistec.Services
                     || x.Product.CodigoVentaProducto.ToLower().Contains(qParams.search)
                 );
 
-            if (qParams.orderBy == "desc")
+            if (qParams.isOrderByDescending == true)
                 product = product.OrderByDescending(x => x.Product.DescripcionProducto);
 
             IEnumerable<ProductDto> mapped = _mapper.Map<IEnumerable<ProductDto>>(product);

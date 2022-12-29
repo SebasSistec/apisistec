@@ -8,11 +8,14 @@ using apisistec.Extensions;
 using apisistec.Interfaces;
 using apisistec.Models.Common;
 using apisistec.Models.Parameters;
+using apisistec.Models.Parameters.Support;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
+using System.Linq.Expressions;
 using System.Security.Claims;
 using System.Text;
 
@@ -153,6 +156,8 @@ namespace apisistec.Services
                 .Include(x => x.asignedBy)
                 .Include(x => x.project)
                 .Include(x => x.issueDetails)
+                    .ThenInclude(x => x.module)
+                .Include(x => x.issueDetails)
                     .ThenInclude(x => x.files)
                 .Include(x => x.issueDetails)
                     .ThenInclude(x => x.timings.OrderByDescending(x => x.createdAt))
@@ -171,7 +176,6 @@ namespace apisistec.Services
 
             HttpRequest request = _httpContextAccesor.HttpContext.Request;
             string urlBaseImage = request.Host.Host;
-            string a = $"{request.Scheme}://{urlBaseImage}/as";
 
             IssueTimings? timing = _context.IssueTimings.Where(x => x.id == detail.id).Include(x => x.detail).FirstOrDefault();
             if(timing is null)
@@ -212,6 +216,79 @@ namespace apisistec.Services
             _context.SaveChanges();
 
             return detail;
+        }
+
+        public PaginationDto<SupportDto> GetWithParams(SupportQParams qParams)
+        {
+            Expression<Func<Issues, bool>> clientsCondition = issue => true;
+            Expression<Func<IssueDetails, bool>> employeesCondition = issue => true;
+            Expression<Func<IssueDetails, bool>> productsCondition = issue => true;
+            Expression<Func<Issues, bool>> proyectsCondition = issue => true;
+            Expression<Func<Issues, bool>> orderNumCondition = issue => true;
+            Expression<Func<Issues, bool>> priorityCondition = issue => true;
+            Expression<Func<IssueDetails, bool>> detailCondition = issue => true;
+            Expression<Func<IssueTimings, bool>> detailStateCondition = detail => true;
+
+            if (!string.IsNullOrEmpty(qParams.orderNum))
+                orderNumCondition = s => s.orderNumber.ToString() == qParams.orderNum;
+            
+            if (!string.IsNullOrEmpty(qParams?.priority.ToString()))
+                priorityCondition = s => s.priority.Equals(qParams.priority);
+
+            if (qParams?.clients?.Length > 0)
+                clientsCondition = s => qParams.clients.Contains(s.clientId);
+
+            if (qParams?.products?.Length > 0)
+                productsCondition = s => qParams.products.Contains(s.productId);
+
+            if (!string.IsNullOrEmpty(qParams?.detailState.ToString()))
+            {
+                detailStateCondition = s => s.state == qParams.detailState;
+                detailCondition = detail => detail.timings.Any(timing => timing.state == qParams.detailState);
+            }
+
+            if (qParams?.employees?.Length > 0)
+                employeesCondition = s => qParams.employees.Contains(s.employeeId);
+
+            if (qParams?.projects?.Length > 0)
+                proyectsCondition = s => qParams.projects.Contains(s.projectId);
+
+            Expression<Func<Issues, bool>> dateCondition = s => true;
+            if (qParams?.minDate != null)
+                dateCondition = s => s.createdAt >= qParams.minDate;
+
+            if (qParams?.maxDate != null)
+                dateCondition = dateCondition.And(s => s.createdAt <= qParams.maxDate);
+
+            IQueryable<Issues> query = _context.Issues
+                .Include(x => x.client)
+                .Include(x => x.asignedBy)
+                .Include(x => x.project)
+                .Include(x => x.issueDetails)
+                    .ThenInclude(x => x.module)
+                .Include(x => x.issueDetails)
+                    .ThenInclude(x => x.files)
+                .Include(x => x.issueDetails)
+                    .ThenInclude(x => x.producto)
+                .Include(x => x.issueDetails
+                    .AsQueryable()
+                    .Where(detailCondition)
+                    .Where(employeesCondition)
+                    .Where(productsCondition))
+                    .ThenInclude(x => x.timings.AsQueryable()
+                        .Where(detailStateCondition)
+                        .OrderByDescending(x => x.createdAt))
+                .Where(clientsCondition)
+                .Where(proyectsCondition)
+                .Where(dateCondition)
+                .Where(priorityCondition)
+                .Where(orderNumCondition)
+                .OrderBy(x => x.createdAt);
+
+            query = query.OrderBy(qParams?.orderBy!, qParams!.isOrderByDescending);
+            IEnumerable<SupportDto> supports = _mapper.Map<IEnumerable<SupportDto>>(query);
+            PaginationDto<SupportDto> paged = supports.Where(x => x.details.Count > 0).GetPaged(qParams);
+            return paged;
         }
     }
 }

@@ -46,7 +46,7 @@ namespace apisistec.Controllers
                 });
             });
 
-            return Ok(response.SuccessResponse("Ok", fileUploadedDto));
+            return response.SuccessResponse("Ok", fileUploadedDto);
         }
         
         [HttpPost("tmp")]
@@ -71,7 +71,7 @@ namespace apisistec.Controllers
                 tempPath = tempPath
             };
             
-            return Ok(response.SuccessResponse("Ok", fileUploadedDto));
+            return response.SuccessResponse("Ok", fileUploadedDto);
         }
 
         private static void callbackExpirateCacheFile(object key, object value, EvictionReason reason, object state)

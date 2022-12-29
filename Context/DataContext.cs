@@ -36,6 +36,7 @@ namespace apisistec.Context
         public DbSet<IssueTimings> IssueTimings { get; set; } = null!;
         public DbSet<IssueFiles> IssueFiles { get; set; } = null!;
         public DbSet<Projects> Projects { get; set; } = null!;
+        public DbSet<Modules> Modules { get; set; } = null!;
         public DbSet<ProjectsPerClients> ProjectsPerClients { get; set; } = null!;
         public virtual DbSet<Facturaspago> FacturaPagos { get; set; } = null!;
         public virtual DbSet<Facturastarjetacredito> FacturasTarjetaCredito { get; set; } = null!;
@@ -72,6 +73,7 @@ namespace apisistec.Context
             modelBuilder.ApplyConfiguration(new EmpresasProductosConfiguration());
             modelBuilder.ApplyConfiguration(new ProjectsConfiguration());
             modelBuilder.ApplyConfiguration(new ProjectsPerClientsConfiguration());
+            modelBuilder.ApplyConfiguration(new ModulesConfiguration());
         }
     }
 }

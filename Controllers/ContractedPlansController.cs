@@ -26,7 +26,7 @@ namespace apisistec.Controllers
         {
             string userId = _userService.GetUserLoggedId()!;
             List<ContractsResponseDto> contractsList = _contractService.GetByUser(Guid.Parse(userId));
-            return Ok(response.SuccessResponse("Ok", contractsList)); ;
+            return response.SuccessResponse("Ok", contractsList); ;
         }
     }
 }

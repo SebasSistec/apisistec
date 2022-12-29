@@ -7,7 +7,9 @@ namespace apisistec.Interfaces
 {
     public interface IProjectService
     {
-        PaginationDto<Projects> GetProjectsPerCompany(QueryParams qParams, string clientId);
+        PaginationDto<Projects> GetProjectsPerCompany(QueryParams qParams, string? clientId);
         Projects Create(ProjectRequestDto project);
+        Modules CreateModule(ProjectOrModuleDto module);
+        PaginationDto<Modules> GetModules(QueryParams qParams);
     }
 }
