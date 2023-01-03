@@ -1,4 +1,5 @@
-﻿using apisistec.Enums;
+﻿using apisistec.Dtos.Employee;
+using apisistec.Enums;
 
 namespace apisistec.Dtos.Support
 {
@@ -10,5 +11,6 @@ namespace apisistec.Dtos.Support
         public DateTime? endAt { get; set; }
         public string? pauseDescription { get; set; }
         public DateTime createdAt { get; set; }
+        public EmployeeDto employee { get; set; }
     }
 }

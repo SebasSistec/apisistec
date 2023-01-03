@@ -36,12 +36,6 @@ namespace apisistec.Configurations
                .HasColumnType("varchar")
                .HasMaxLength(36);
 
-            builder.Property(x => x.employeeId)
-               .IsRequired()
-               .HasColumnName("employee_id")
-               .HasColumnType("varchar")
-               .HasMaxLength(36);
-
             builder.Property(x => x.solution)
                .HasColumnType("text");
 
@@ -69,11 +63,6 @@ namespace apisistec.Configurations
             builder.HasOne(x => x.producto)
                .WithMany(x => x.issues)
                .HasForeignKey(x => x.productId)
-               .OnDelete(DeleteBehavior.Restrict);
-
-            builder.HasOne(x => x.empleado)
-               .WithMany(x => x.issueDetails)
-               .HasForeignKey(x => x.employeeId)
                .OnDelete(DeleteBehavior.Restrict);
 
             builder.HasOne(x => x.module)

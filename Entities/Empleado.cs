@@ -260,6 +260,6 @@
         public List<BillingParams> BillingParams { get; set; } = new();
         public List<Issues> issuesToDo { get; set; } = new();
         public List<Issues> asignedIssues { get; set; } = new();
-        public List<IssueDetails> issueDetails { get; set; } = new();
+        public List<IssueTimings> issueTimings { get; set; } = new();
     }
 }

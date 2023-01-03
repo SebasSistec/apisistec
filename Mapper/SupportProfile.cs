@@ -33,8 +33,6 @@ namespace apisistec.Mapper
                     opt => opt.MapFrom(o => o.description))
                 .ForMember(dest => dest.estimatedHours,
                     opt => opt.MapFrom(o => o.estimatedHours))
-                .ForMember(dest => dest.employeeId,
-                    opt => opt.MapFrom(o => o.employee.id))
                 .ForMember(dest => dest.productId,
                     opt => opt.MapFrom(o => o.product.id))
                 .ForMember(dest => dest.moduleId,
@@ -55,6 +53,8 @@ namespace apisistec.Mapper
                     opt => opt.MapFrom(o => o.startAt))
                 .ForMember(dest => dest.endAt,
                     opt => opt.MapFrom(o => o.endAt))
+                .ForMember(dest => dest.employeeId,
+                    opt => opt.MapFrom(o => o.employee.id))
                 .ForMember(dest => dest.pauseDescription,
                     opt => opt.MapFrom(o => o.pauseDescription));
 
@@ -70,7 +70,9 @@ namespace apisistec.Mapper
                 .ForMember(dest => dest.pauseDescription,
                     opt => opt.MapFrom(o => o.pauseDescription))
                 .ForMember(dest => dest.createdAt,
-                    opt => opt.MapFrom(o => o.createdAt));
+                    opt => opt.MapFrom(o => o.createdAt))
+                .ForMember(dest => dest.employee,
+                   opt => opt.MapFrom(o => o.employee));
 
             CreateMap<Issues, SupportDto>()
                 .ForMember(dest => dest.id,

@@ -63,5 +63,12 @@ namespace apisistec.Controllers
             PaginationDto<SupportDto> issues = _supportService.GetWithParams(qParams);
             return response.SuccessResponse("Ok", issues);
         }
+
+        [HttpGet("timings/{detailId}")]
+        public IActionResult GetTimings(Guid detailId)
+        {
+            List<IssueTimingDto> timings = _supportService.GetTiming(detailId);
+            return response.SuccessResponse("Ok", timings);
+        }
     }
 }

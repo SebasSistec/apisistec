@@ -28,14 +28,11 @@ namespace apisistec.Services
         private readonly AppSettings _appSettings;
         private readonly IMediaService _mediaService;
         private readonly IHttpContextAccessor _httpContextAccesor;
-        private readonly IWebHostEnvironment _env;
-
 
         public SupportService(
             DataContext context,
             IMapper mapper,
             IHttpContextAccessor httpContextAccesor,
-            IWebHostEnvironment env,
             IOptions<AppSettings> appSettings,
             IMediaService mediaService)
         {
@@ -44,7 +41,6 @@ namespace apisistec.Services
             _httpContextAccesor = httpContextAccesor;
             _appSettings = appSettings.Value;
             _mediaService = mediaService;
-            _env = env;
         }
         public string GetSuppportToken(string userId, string companyId)
         {
@@ -104,6 +100,7 @@ namespace apisistec.Services
                 _context.IssueDetails.Add(issueDetail);
 
                 IssueTimings timing = _mapper.Map<IssueTimings>(issueDetail);
+                timing.employeeId = detail.employee.id;
                 _context.IssueTimings.Add(timing);
 
                 detail.cacheFileKeys.ForEach(cache =>
@@ -160,8 +157,8 @@ namespace apisistec.Services
                 .Include(x => x.issueDetails)
                     .ThenInclude(x => x.files)
                 .Include(x => x.issueDetails)
-                    .ThenInclude(x => x.timings.OrderByDescending(x => x.createdAt))
-                .Where(x => x.issueDetails.Any(x => x.employeeId == user.userId))
+                    .ThenInclude(x => x.timings.Where(timing => timing.employeeId == user.userId).OrderByDescending(x => x.createdAt))
+                        .ThenInclude(x => x.employee)
                 .OrderBy(x => x.createdAt)
                 .ToList();
 
@@ -186,7 +183,7 @@ namespace apisistec.Services
                 case IssueStateEnum.STARTED:
                     IssueDetails? support = _context.IssueDetails
                         .Include(x => x.issue)
-                        .Where(x => x.employeeId == user.userId && x.timings.Any(x => x.state == IssueStateEnum.STARTED))
+                        .Where(x => x.timings.Any(x => x.employeeId == user.userId) && x.timings.Any(x => x.state == IssueStateEnum.STARTED))
                         .FirstOrDefault();
 
                     if(timing.state == IssueStateEnum.PENDING)
@@ -221,7 +218,7 @@ namespace apisistec.Services
         public PaginationDto<SupportDto> GetWithParams(SupportQParams qParams)
         {
             Expression<Func<Issues, bool>> clientsCondition = issue => true;
-            Expression<Func<IssueDetails, bool>> employeesCondition = issue => true;
+            Expression<Func<IssueTimings, bool>> employeesCondition = issue => true;
             Expression<Func<IssueDetails, bool>> productsCondition = issue => true;
             Expression<Func<Issues, bool>> proyectsCondition = issue => true;
             Expression<Func<Issues, bool>> orderNumCondition = issue => true;
@@ -273,9 +270,9 @@ namespace apisistec.Services
                 .Include(x => x.issueDetails
                     .AsQueryable()
                     .Where(detailCondition)
-                    .Where(employeesCondition)
                     .Where(productsCondition))
                     .ThenInclude(x => x.timings.AsQueryable()
+                        .Where(employeesCondition)
                         .Where(detailStateCondition)
                         .OrderByDescending(x => x.createdAt))
                 .Where(clientsCondition)
@@ -289,6 +286,16 @@ namespace apisistec.Services
             IEnumerable<SupportDto> supports = _mapper.Map<IEnumerable<SupportDto>>(query);
             PaginationDto<SupportDto> paged = supports.Where(x => x.details.Count > 0).GetPaged(qParams);
             return paged;
+        }
+
+        public List<IssueTimingDto> GetTiming(Guid detailId)
+        {
+            List<IssueTimings> timing = _context.IssueTimings
+                    .Include(x => x.employee)
+                    .Where(x => x.issueDetailId == detailId)
+                    .ToList();
+            List<IssueTimingDto> response = _mapper.Map<List<IssueTimingDto>>(timing);
+            return response;
         }
     }
 }

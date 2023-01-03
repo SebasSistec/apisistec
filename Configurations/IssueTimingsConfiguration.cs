@@ -35,6 +35,10 @@ namespace apisistec.Configurations
             builder.Property(x => x.createdAt)
                .HasColumnType("datetime");
 
+            builder.Property(x => x.employeeId)
+               .IsRequired()
+               .HasColumnType("varchar")
+               .HasMaxLength(36);
 
             builder.Property(x => x.issueDetailId)
                .IsRequired()
@@ -45,6 +49,11 @@ namespace apisistec.Configurations
                 .WithMany(x => x.timings)
                 .HasForeignKey(x => x.issueDetailId)
                 .OnDelete(DeleteBehavior.Restrict);
+
+            builder.HasOne(x => x.employee)
+               .WithMany(x => x.issueTimings)
+               .HasForeignKey(x => x.employeeId)
+               .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }
