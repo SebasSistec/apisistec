@@ -166,7 +166,7 @@ namespace apisistec.Services
                 .ToList();
 
             IEnumerable<SupportDto> supports = _mapper.Map<IEnumerable<SupportDto>>(issues);
-            PaginationDto<SupportDto> paged = supports.GetPaged(qParams); 
+            PaginationDto<SupportDto> paged = supports.Where(x => x.details.Count > 0).GetPaged(qParams); 
             return paged;
         }
 
