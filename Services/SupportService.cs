@@ -148,6 +148,7 @@ namespace apisistec.Services
         public PaginationDto<SupportDto> GetByUser(QueryParams qParams)
         {
             CredentialsToken user = GetUserSupportCredentials();
+
             IEnumerable<Issues> issues = _context.Issues
                 .Include(x => x.client)
                 .Include(x => x.asignedBy)
@@ -155,8 +156,10 @@ namespace apisistec.Services
                 .Include(x => x.issueDetails)
                     .ThenInclude(x => x.module)
                 .Include(x => x.issueDetails)
-                    .ThenInclude(x => x.files)
+                    .ThenInclude(x => x.producto)
                 .Include(x => x.issueDetails)
+                    .ThenInclude(x => x.files)
+                .Include(x => x.issueDetails.Where(detail => detail.timings.All(x => x.employeeId == user.userId)))
                     .ThenInclude(x => x.timings.Where(timing => timing.employeeId == user.userId).OrderByDescending(x => x.createdAt))
                         .ThenInclude(x => x.employee)
                 .OrderBy(x => x.createdAt)
@@ -275,6 +278,7 @@ namespace apisistec.Services
                         .Where(employeesCondition)
                         .Where(detailStateCondition)
                         .OrderByDescending(x => x.createdAt))
+                        .ThenInclude(x => x.employee)
                 .Where(clientsCondition)
                 .Where(proyectsCondition)
                 .Where(dateCondition)

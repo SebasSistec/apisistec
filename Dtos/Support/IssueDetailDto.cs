@@ -1,7 +1,6 @@
 ﻿using apisistec.Dtos.Employee;
 using apisistec.Dtos.File;
 using apisistec.Dtos.Product;
-using apisistec.Enums;
 
 namespace apisistec.Dtos.Support
 {
