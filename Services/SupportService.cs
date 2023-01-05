@@ -244,11 +244,17 @@ namespace apisistec.Services
             if (!string.IsNullOrEmpty(qParams?.detailState.ToString()))
             {
                 detailStateCondition = s => s.state == qParams.detailState;
-                detailCondition = detail => detail.timings.Any(timing => timing.state == qParams.detailState);
+                detailCondition = detail => detail.timings.All(timing => timing.state == qParams.detailState);
             }
 
             if (qParams?.employees?.Length > 0)
+            {
                 employeesCondition = s => qParams.employees.Contains(s.employeeId);
+                detailCondition = detail => detail.timings.All(x => qParams.employees.Contains(x.employeeId));
+            }
+
+            if (qParams?.employees?.Length > 0 && !string.IsNullOrEmpty(qParams?.detailState.ToString()))
+                detailCondition = detail => detail.timings.All(timing => timing.state == qParams.detailState) && detail.timings.All(x => qParams.employees.Contains(x.employeeId));
 
             if (qParams?.projects?.Length > 0)
                 proyectsCondition = s => qParams.projects.Contains(s.projectId);
@@ -287,7 +293,7 @@ namespace apisistec.Services
                 .OrderBy(x => x.createdAt);
 
             query = query.OrderBy(qParams?.orderBy!, qParams!.isOrderByDescending);
-            IEnumerable<SupportDto> supports = _mapper.Map<IEnumerable<SupportDto>>(query);
+            IEnumerable<SupportDto> supports = _mapper.Map<IEnumerable<SupportDto>>(query.Where(x => x.issueDetails.Count > 0 && x.issueDetails.Any(x => x.timings.Count > 0)));
             PaginationDto<SupportDto> paged = supports.Where(x => x.details.Count > 0).GetPaged(qParams);
             return paged;
         }
@@ -300,6 +306,41 @@ namespace apisistec.Services
                     .ToList();
             List<IssueTimingDto> response = _mapper.Map<List<IssueTimingDto>>(timing);
             return response;
+        }
+
+        public ReasignSupportDto ReasignSupport(ReasignSupportDto data)
+        {
+            IssueDetails? support = _context.IssueDetails
+                .Include(x => x.timings)
+                .Where(x => x.id == data.id)
+                .FirstOrDefault();
+
+            Empleado? employee = _context.Empleados.Where(x => x.CodigoEmpleado.Equals(data.employeeId)).FirstOrDefault();
+
+            if(string.IsNullOrEmpty(data.title) || string.IsNullOrEmpty(data.title))
+                throw new Exception("Los campos son obligatorios");
+
+            if(employee is null)
+                throw new Exception("No se encontró el empleado seleccionado, intente nuevamente");
+
+            if(support is null)
+                throw new Exception("No se encontró el pendiente");
+
+            if (support.timings.Any(x => x.state == IssueStateEnum.PENDING))
+                throw new Exception("Ya tiene un pendiente asignado aún no iniciado");
+
+            if (support.timings.Any(x => x.state != IssueStateEnum.FINISHED))
+                throw new Exception("Finalice el pendiente para poder reasignar");
+            
+            support.title = data.title;
+            support.description = data.description;
+
+            IssueTimings timing = _mapper.Map<IssueTimings>(support);
+            timing.employeeId = data.employeeId;
+            _context.IssueDetails.Update(support);
+            _context.IssueTimings.Add(timing);
+            _context.SaveChanges();
+            return data;
         }
     }
 }

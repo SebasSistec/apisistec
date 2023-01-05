@@ -70,5 +70,13 @@ namespace apisistec.Controllers
             List<IssueTimingDto> timings = _supportService.GetTiming(detailId);
             return response.SuccessResponse("Ok", timings);
         }
+
+        [HttpPost("reasign-support")]
+        [Authorize]
+        public IActionResult ReasignSupport([FromBody] ReasignSupportDto data)
+        {
+            _supportService.ReasignSupport(data);
+            return response.SuccessResponse("Realizado", data);
+        }
     }
 }

@@ -15,5 +15,6 @@ namespace apisistec.Interfaces
         UpdateDetailTimingDto UpdateSupportDetail(UpdateDetailTimingDto detail);
         PaginationDto<SupportDto> GetWithParams(SupportQParams qParams);
         List<IssueTimingDto> GetTiming(Guid detailId);
+        ReasignSupportDto ReasignSupport(ReasignSupportDto data);
     }
 }

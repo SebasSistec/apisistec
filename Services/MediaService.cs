@@ -32,7 +32,7 @@ namespace apisistec.Services
             File.Move(tempPath, path);
 
             file.name = name;
-            file.path = $"{root}/{subRoot}/{name}";
+            file.path = $"{path}";
             file.extension = extension;
             file.createdAt = DateTime.Now;
 
