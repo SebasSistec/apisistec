@@ -334,10 +334,10 @@ namespace apisistec.Services
             
             support.title = data.title;
             support.description = data.description;
-
-            IssueTimings timing = _mapper.Map<IssueTimings>(support);
-            timing.employeeId = data.employeeId;
             _context.IssueDetails.Update(support);
+            IssueTimings timing = _mapper.Map<IssueTimings>(support);
+            timing.createdAt = DateTime.Now;
+            timing.employeeId = data.employeeId;
             _context.IssueTimings.Add(timing);
             _context.SaveChanges();
             return data;
