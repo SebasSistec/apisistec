@@ -13,6 +13,7 @@ namespace apisistec.Dtos.Support
         public IssuePriorityEnum priority { get; set; }
         public DateTime createdAt { get; set; }
         public EmployeeDto asignedBy { get; set; }
+        public EmployeeDto asignedTo { get; set; }
         public ClientDto client { get; set; }
         public ProjectOrModuleDto project { get; set; }
         public List<SupportDetailDto> details { get; set; }

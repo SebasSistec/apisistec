@@ -152,6 +152,7 @@ namespace apisistec.Services
             IEnumerable<Issues> issues = _context.Issues
                 .Include(x => x.client)
                 .Include(x => x.asignedBy)
+                .Include(x => x.asignedTo)
                 .Include(x => x.project)
                 .Include(x => x.issueDetails)
                     .ThenInclude(x => x.module)
@@ -244,7 +245,7 @@ namespace apisistec.Services
             if (!string.IsNullOrEmpty(qParams?.detailState.ToString()))
             {
                 detailStateCondition = s => s.state == qParams.detailState;
-                detailCondition = detail => detail.timings.All(timing => timing.state == qParams.detailState);
+                detailCondition = detail => detail.timings.Any(timing => timing.state == qParams.detailState);
             }
 
             if (qParams?.employees?.Length > 0)
@@ -254,7 +255,7 @@ namespace apisistec.Services
             }
 
             if (qParams?.employees?.Length > 0 && !string.IsNullOrEmpty(qParams?.detailState.ToString()))
-                detailCondition = detail => detail.timings.All(timing => timing.state == qParams.detailState) && detail.timings.All(x => qParams.employees.Contains(x.employeeId));
+                detailCondition = detail => detail.timings.Any(timing => timing.state == qParams.detailState) && detail.timings.All(x => qParams.employees.Contains(x.employeeId));
 
             if (qParams?.projects?.Length > 0)
                 proyectsCondition = s => qParams.projects.Contains(s.projectId);
@@ -269,6 +270,7 @@ namespace apisistec.Services
             IQueryable<Issues> query = _context.Issues
                 .Include(x => x.client)
                 .Include(x => x.asignedBy)
+                .Include(x => x.asignedTo)
                 .Include(x => x.project)
                 .Include(x => x.issueDetails)
                     .ThenInclude(x => x.module)
