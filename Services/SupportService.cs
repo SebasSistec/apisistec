@@ -344,5 +344,34 @@ namespace apisistec.Services
             _context.SaveChanges();
             return data;
         }
+
+        public SupportDto? GetStartedSupport()
+        {
+            CredentialsToken user = GetUserSupportCredentials();
+
+            Issues? issue = _context.Issues
+                .Include(x => x.client)
+                .Include(x => x.asignedBy)
+                .Include(x => x.asignedTo)
+                .Include(x => x.project)
+                .Include(x => x.issueDetails)
+                    .ThenInclude(x => x.module)
+                .Include(x => x.issueDetails)
+                    .ThenInclude(x => x.files)
+                .Include(x => x.issueDetails)
+                    .ThenInclude(x => x.producto)
+                .Include(x => x.issueDetails)
+                    .ThenInclude(x => 
+                        x.timings.OrderByDescending(x => x.createdAt))
+                    .ThenInclude(x => x.employee)
+                .Where(x => x.issueDetails
+                    .Any(x => x.timings.Any(x => 
+                        x.employeeId == user.userId 
+                        && x.state == IssueStateEnum.STARTED)))
+                .FirstOrDefault();
+
+            SupportDto support = _mapper.Map<SupportDto>(issue);
+            return support;
+        }
     }
 }

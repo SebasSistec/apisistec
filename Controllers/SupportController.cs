@@ -78,5 +78,13 @@ namespace apisistec.Controllers
             _supportService.ReasignSupport(data);
             return response.SuccessResponse("Realizado", data);
         }
+
+        [HttpGet("started-support")]
+        [Authorize]
+        public IActionResult GetStartedSupport()
+        {
+            SupportDto? support = _supportService.GetStartedSupport();
+            return response.SuccessResponse("Realizado", support);
+        }
     }
 }
