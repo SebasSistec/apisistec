@@ -1,4 +1,5 @@
-﻿using apisistec.Entities;
+﻿using apisistec.Constants;
+using apisistec.Entities;
 using apisistec.Interfaces;
 using Cuaier.Extensions;
 
@@ -21,8 +22,8 @@ namespace apisistec.Services
             file.id = Guid.NewGuid();
             string name = Path.GetFileName(tempPath);
             string extension = Path.GetExtension(name);
-
-            string rootPath = Path.Combine(_env.WebRootPath, root, subRoot);
+             
+            string rootPath = Path.Combine(_env.WebRootPath, PathFolders.FILES, root, subRoot);
 
             if (!Directory.Exists(rootPath))
                 Directory.CreateDirectory(rootPath);
@@ -32,7 +33,7 @@ namespace apisistec.Services
             File.Move(tempPath, path);
 
             file.name = name;
-            file.path = $"{path}";
+            file.path = $"{PathFolders.FILES}/{root}/{subRoot}/{name}";
             file.extension = extension;
             file.createdAt = DateTime.Now;
 

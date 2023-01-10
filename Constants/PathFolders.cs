@@ -4,5 +4,6 @@
     {
         public const string IMG_ROOT = "images";
         public const string IMG_ISSUES = "issues";
+        public const string FILES = "files";
     }
 }

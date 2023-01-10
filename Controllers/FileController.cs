@@ -27,7 +27,7 @@ namespace apisistec.Controllers
             List<FileUploadedDto> fileUploadedDto = new();
             upload.files.ForEach(file =>
             {
-                string tempPath = _mediaService.SaveToTmp(file);
+                string tempPath = _mediaService.SaveToTmp(file, file.FileName);
                 Guid cacheKey = Guid.NewGuid();
                 CancellationTokenSource cts = new();
                 _cache.Set($"{cacheKey}_cts", cts);
