@@ -12,10 +12,7 @@ using System.Net;
 using System.Text;
 using System.Text.Json.Serialization;
 
-WebApplicationBuilder builder = WebApplication.CreateBuilder(new WebApplicationOptions
-{
-    Args = args
-});
+WebApplicationBuilder builder = WebApplication.CreateBuilder();
 
 // Add services to the container.
 string mySqlConnectionStr = builder.Configuration.GetConnectionString("ConnectionDB");
