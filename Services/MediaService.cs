@@ -45,7 +45,7 @@ namespace apisistec.Services
             string ext = Path.GetExtension(file.FileName);
             name = name ?? Guid.NewGuid().ToString() + ext;
             //string TEMP_FOLDER = "C:/WINDOWS/TEMP";
-            string tempPath = Path.Combine(_env.WebRootPath, Path.GetTempPath(), name);
+            string tempPath = Path.Combine(Path.GetTempPath(), name);
             file.SaveAs(tempPath);
             return tempPath;
         }

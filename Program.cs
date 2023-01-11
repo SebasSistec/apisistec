@@ -103,7 +103,7 @@ if (app.Environment.IsDevelopment())
 app.UseCors(MyCors);
 app.UseAuthentication();
 app.UseAuthorization();
-app.UseStaticFiles();
+//app.UseStaticFiles();
 app.MapControllers();
 
 app.Run();
