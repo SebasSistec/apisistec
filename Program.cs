@@ -12,7 +12,11 @@ using System.Net;
 using System.Text;
 using System.Text.Json.Serialization;
 
-WebApplicationBuilder builder = WebApplication.CreateBuilder();
+WebApplicationBuilder builder = WebApplication.CreateBuilder(new WebApplicationOptions
+{
+    Args = args,
+    WebRootPath = "Files"
+});
 
 // Add services to the container.
 string mySqlConnectionStr = builder.Configuration.GetConnectionString("ConnectionDB");
@@ -103,7 +107,7 @@ if (app.Environment.IsDevelopment())
 app.UseCors(MyCors);
 app.UseAuthentication();
 app.UseAuthorization();
-//app.UseStaticFiles();
+app.UseStaticFiles();
 app.MapControllers();
 
 app.Run();
