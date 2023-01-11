@@ -44,7 +44,7 @@ namespace apisistec.Services
         {
             string ext = Path.GetExtension(file.FileName);
             name = name ?? Guid.NewGuid().ToString() + ext;
-            string TEMP_FOLDER = "C:\\WINDOWS\\TEMP";
+            string TEMP_FOLDER = "C:/WINDOWS/TEMP";
             string tempPath = Path.Combine(TEMP_FOLDER, name);
             file.SaveAs(tempPath);
             return tempPath;
