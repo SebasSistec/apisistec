@@ -44,8 +44,8 @@ namespace apisistec.Services
         {
             string ext = Path.GetExtension(file.FileName);
             name = name ?? Guid.NewGuid().ToString() + ext;
-            string tempFolder = Environment.OSVersion.Platform == PlatformID.Win32NT ? "C:\\WINDOWS\\TEMP" : Path.GetTempPath();
-            string tempPath = Path.Combine(tempFolder, name);
+            string TEMP_FOLDER = "C:\\WINDOWS\\TEMP";
+            string tempPath = Path.Combine(TEMP_FOLDER, name);
             file.SaveAs(tempPath);
             return tempPath;
         }
