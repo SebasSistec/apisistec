@@ -86,5 +86,21 @@ namespace apisistec.Controllers
             SupportDto? support = _supportService.GetStartedSupport();
             return response.SuccessResponse("Realizado", support);
         }
+
+        [HttpGet("test")]
+        public IActionResult Test()
+        {
+            var a = Environment.GetEnvironmentVariable("TEMP");
+            var b = Environment.GetEnvironmentVariable("TMP");
+            var c = EnvironmentVariableTarget.User;
+            var d = Environment.GetEnvironmentVariable("TEMP", EnvironmentVariableTarget.User);
+            var e = Environment.OSVersion.Platform;
+            var f = Environment.GetFolderPath(Environment.SpecialFolder.Windows);
+            var g = Environment.GetEnvironmentVariable("HOME");
+            var h = Environment.OSVersion.Platform == PlatformID.Win32NT;
+            return Ok(new { a, b, c, d, e, f, g, h });
+        }
+
+        
     }
 }
